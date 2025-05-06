@@ -1,8 +1,13 @@
 <template>
 
-    <div class="progress-bar">
-        <div class="progress" :style="{ width: `${percentage}%` }"></div>
+    <div class="flex gap-3">
+        <div class="progress-bar">
+            <div class="progress bg-indigo-400" :style="{ width: `${percentage}%` }"></div> 
+        </div>
+        {{ percentage.toFixed(0) }}%
     </div>
+
+    
 </template>
 
 
@@ -37,8 +42,7 @@ const percentage = computed(() => {
     overflow: hidden;
 }
 .progress {
-    height: 10px;
-    background-color: #76c7c0;
+    height: 100%;
     transition: width 0.3s ease;
 }
 </style>
