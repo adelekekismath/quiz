@@ -1,23 +1,37 @@
 <template>
-    <div>
-        <h3>{{ question }}</h3>
-        <div v-for="(option, index) in options" :key="index">
-            <input
-                type="radio"
-                @change="selectAnswer(option)"
-                :id="'option' + index"
-                :name="question"
-                :value="option"
-            />
-            <label :for="'option' + index">
-                {{ option }}
-            </label>
+    <div class="bg-white shadow-md rounded-2xl p-6 border border-indigo-100">
+      <h3 class="text-xl font-semibold text-indigo-700 mb-4">
+        {{ question }}
+      </h3>
+  
+      <div class="space-y-3">
+        <div
+          v-for="(option, index) in options"
+          :key="index"
+          class="flex items-center gap-3 p-3 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition"
+        >
+          <input
+            type="radio"
+            @change="selectAnswer(option)"
+            :id="'option' + index"
+            :name="question"
+            :value="option"
+            class="accent-indigo-600 w-5 h-5"
+          />
+          <label
+            :for="'option' + index"
+            class="text-indigo-800 text-base cursor-pointer"
+          >
+            {{ option }}
+          </label>
         </div>
+      </div>
     </div>
 </template>
+  
 
 <script setup lang="ts">
-    import { computed, defineProps } from "vue";
+    import { computed } from "vue";
 
     interface Question {
         question: string;

@@ -1,33 +1,46 @@
 <template>
-
-    <div v-if="!quizFinished">
-        <h2>Questionnaire sur la culture générale</h2>
-
-        <ProgressBar :currentIndex="currentQuestionIndex" :totalQuestions="questions.length" />
-
-        <div class="question">
-            <Question  
-                v-for="(question, index) in questions"
-                v-show="index === currentQuestionIndex"
-                :key="index"
-                :currentQuestion="question"
-                :currentIndex="index"
-                @select-answer="onAnswered"
-            />
-        </div>
-        <button @click="nextQuestion" :disabled="!enableNextButton">
-            Next Question
-        </button>
-
-    </div>
-    <div v-else>
-        <Result
-            :questions="questions"
-            :answers="answers"
-            @reset-quiz="resetQuiz"
+    <div v-if="!quizFinished" class="max-w-3xl mx-auto px-4 py-8">
+      <h2 class="text-3xl font-bold text-indigo-800 mb-6 text-center">
+        Questionnaire sur la culture générale
+      </h2>
+  
+      <ProgressBar
+        :currentIndex="currentQuestionIndex"
+        :totalQuestions="questions.length"
+        class="mb-6"
+      />
+  
+      <div class="question">
+        <Question
+          v-for="(question, index) in questions"
+          v-show="index === currentQuestionIndex"
+          :key="index"
+          :currentQuestion="question"
+          :currentIndex="index"
+          @select-answer="onAnswered"
         />
+      </div>
+  
+      <div class="flex justify-center mt-8">
+        <button
+          @click="nextQuestion"
+          :disabled="!enableNextButton"
+          class="bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition duration-300"
+        >
+          Next Question
+        </button>
+      </div>
+    </div>
+  
+    <div v-else class="max-w-2xl mx-auto px-4 py-8">
+      <Result
+        :questions="questions"
+        :answers="answers"
+        @reset-quiz="resetQuiz"
+      />
     </div>
 </template>
+  
 
 <script setup lang="ts">
     import { onMounted, ref, computed } from 'vue';
