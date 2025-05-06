@@ -1,35 +1,24 @@
 <template>
     <div v-if="!quizFinished" class="max-w-3xl mx-auto px-4 py-8">
-      <h2 class="text-3xl font-bold text-indigo-800 mb-6 text-center">
-        Questionnaire sur la culture générale
-      </h2>
-  
-      <ProgressBar
-        :currentIndex="currentQuestionIndex"
-        :totalQuestions="questions.length"
-        class="mb-6"
-      />
-  
-      <div class="question">
-        <Question
-          v-for="(question, index) in questions"
-          v-show="index === currentQuestionIndex"
-          :key="index"
-          :currentQuestion="question"
-          :currentIndex="index"
-          @select-answer="onAnswered"
+        <h2 class="text-3xl font-bold text-indigo-800 mb-6 text-center">
+            Questionnaire sur la culture générale
+        </h2>
+    
+        <ProgressBar
+            :currentIndex="currentQuestionIndex"
+            :totalQuestions="questions.length"
+            class="mb-6"
         />
-      </div>
   
-      <div class="flex justify-center mt-8">
-        <button
-          @click="nextQuestion"
-          :disabled="!enableNextButton"
-          class="bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition duration-300"
-        >
-          Next Question
-        </button>
-      </div>
+        <Questions 
+            :questions="questions"
+            :answers="answers"
+            :currentQuestionIndex="currentQuestionIndex"
+            :hasSelectedAnswer="hasSelectedAnswer"
+            @select-answer="onAnswered"
+            @go-to-next-question="goToNextQuestion"
+        />   
+        
     </div>
   
     <div v-else class="max-w-2xl mx-auto px-4 py-8">
@@ -43,11 +32,11 @@
   
 
 <script setup lang="ts">
-    import { onMounted, ref, computed } from 'vue';
+    import { onMounted, ref } from 'vue';
     import defaultData from '../data/testData';
     import ProgressBar from '@/components/ProgressBar.vue';
-    import Question from '@/components/Question.vue';
     import Result from '@/components/Result.vue';
+    import Questions from '@/components/Questions.vue';
     import type { Question as QuestionType, Answer as AnswerType } from '@/utils/types';
     
 
@@ -79,7 +68,7 @@
         })
     });
 
-    function nextQuestion() {
+    function goToNextQuestion() {
         if (currentQuestionIndex.value < questions.value.length - 1 && hasSelectedAnswer.value) {
             currentQuestionIndex.value++;
             hasSelectedAnswer.value = false;
@@ -95,27 +84,10 @@
         quizFinished.value = false;
     }
 
-    const enableNextButton = computed(() => {
-        return currentQuestionIndex.value < questions.value.length  && hasSelectedAnswer.value;
-    });
-
-    function onAnswered(index: number, selectedAnswer: string) {
-        answers.value[index].selectedAnswer = selectedAnswer;
-        answers.value[index].isCorrect = selectedAnswer === questions.value[index].correct_answer;
-        console.log(index);
-        console.log(answers.value[index].selectedAnswer);
+    function onAnswered( selectedAnswer: string) {
+        answers.value[currentQuestionIndex.value].selectedAnswer = selectedAnswer;
+        answers.value[currentQuestionIndex.value].isCorrect = selectedAnswer === questions.value[currentQuestionIndex.value].correct_answer;
         hasSelectedAnswer.value = true;
     }
 
-    const calculateScore = () => {
-        return answers.value.filter(answer => answer.isCorrect).length / questions.value.length * 100;
-    };
-
 </script>
-
-<style scoped>
-.question {
-    margin: 30px 0;
-}
-
-</style>

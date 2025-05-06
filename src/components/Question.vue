@@ -56,11 +56,11 @@
     });
 
     const emit = defineEmits<{
-        (e: 'select-answer', currentQuestion: number, answer: string, ): void
+        (e: 'select-answer',answer: string, ): void
     }>()
         
     function selectAnswer( answer: string) {
-        emit('select-answer', props.currentIndex, answer);
+        emit('select-answer', answer);
     }
 
     const options = computed(() => {
