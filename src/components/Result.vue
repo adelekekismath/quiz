@@ -53,8 +53,30 @@
 
 
 <script setup lang="ts">
-    import { useQuiz } from '@/composables/useQuiz';
+    import { defineProps } from 'vue';
+    import type { Answer, Question } from '@/utils/types';
 
-    const { getScorePercentage, answers, questions, resetQuiz } = useQuiz();
+    defineProps({
+        getScorePercentage: {
+            type: Number,
+            required: true
+        },
+        answers: {
+            type: Array<Answer>,
+            required: true
+        },
+        questions: {
+            type: Array<Question>,
+            required: true
+        }
+    });
+
+    const emit = defineEmits<{
+        (event: "reset-quiz"): void;
+    }>();
+
+    const resetQuiz = () => {
+        emit("reset-quiz");
+    };
     
 </script>

@@ -29,7 +29,12 @@
     </div>
   
     <div v-else class="max-w-2xl mx-auto px-4 py-8">
-      <Result/>
+      <Result
+        :getScorePercentage="getScorePercentage"
+        :answers="answers"
+        :questions="questions"
+        @reset-quiz="resetQuiz"
+      />
     </div>
 </template>
   
@@ -41,7 +46,7 @@ import Question from '@/components/Question.vue';
 import Result from '@/components/Result.vue';
 import { onMounted } from 'vue';
 
-const { isQuizDone, questions,progressPercentage, answers,recordAnswer, goToNextQuestion, currentQuestionIndex, enableNextButton, loadQuestions } = useQuiz();
+const { isQuizDone, getScorePercentage,resetQuiz, questions,progressPercentage, answers,recordAnswer, goToNextQuestion, currentQuestionIndex, enableNextButton, loadQuestions } = useQuiz();
 
 onMounted( () => {
     loadQuestions();

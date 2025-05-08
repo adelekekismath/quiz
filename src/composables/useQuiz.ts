@@ -4,6 +4,7 @@ import defaultData from '../data/testData';
 
 export const useQuiz = () => {
     const questions = ref<Question[]>([])
+    const initAnswers = ref<Answer[]>([])
     const answers = ref<Answer[]>([])
     const currentQuestionIndex = ref(0)
     const score = ref(0)
@@ -11,7 +12,7 @@ export const useQuiz = () => {
     const hasAnswered = ref(false)
 
     const loadQuestions = async () => {
-        const res = await fetch('https://opentdb.com/api.php?amount=10')
+        const res = await fetch('https://opentdb.com/api.php?amount=3')
         if (!res.ok) {
             console.log('Failed to fetch questions')
 
@@ -73,8 +74,7 @@ export const useQuiz = () => {
     }
 
     const resetQuiz = () => {
-        questions.value = []
-        answers.value = []
+        answers.value = [...initAnswers.value]
         currentQuestionIndex.value = 0
         score.value = 0
         isQuizDone.value = false
@@ -82,7 +82,7 @@ export const useQuiz = () => {
     }
 
     const getScorePercentage = computed(() => {
-        return (score.value / questions.value.length) * 100
+        return Math.floor((score.value / questions.value.length) * 100)
     })
 
     const enableNextButton = computed(() => {
