@@ -21,8 +21,8 @@
           :key="index"
           class="p-4 bg-gray-50 rounded-lg border border-gray-200"
         >
-          <p class="text-indigo-700 font-semibold">Q: {{ answer.question }}</p>
-          <p class="text-gray-800">Your answer: <span class="font-medium">{{ answer.selectedAnswer }}</span></p>
+          <p class="text-indigo-700 font-semibold mb-4">Q: {{ answer.question }}</p>
+          <p class="text-gray-800 mb-4">Your answer: <span class="font-medium">{{ answer.selectedAnswer }}</span></p>
           <p
             v-if="answer.isCorrect"
             class="text-green-600 font-semibold"

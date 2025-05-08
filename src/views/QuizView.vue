@@ -22,7 +22,7 @@
                 :disabled="!enableNextButton"
                 class="bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition duration-300"
             >
-                Next Question
+                {{ currentQuestionIndex === questions.length - 1 ? 'Finish' : 'Next Question' }}
             </button>
         </div>
         

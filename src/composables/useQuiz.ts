@@ -18,14 +18,14 @@ export const useQuiz = () => {
 
             console.log('No results found, using default data');
             questions.value = defaultData.results;
-            let initAnswers = defaultData.results.map((question: any) => {
+            initAnswers.value = defaultData.results.map((question: any) => {
                 return {
                     question: question.question,
                     selectedAnswer: null,
                     isCorrect: false
                 }
             });
-            answers.value = [...initAnswers];
+            answers.value = [...initAnswers.value];
         }
         else {
             const data = await res.json()
@@ -36,14 +36,14 @@ export const useQuiz = () => {
                     correct_answer: decodeHtmlEntities(q.correct_answer),
                     incorrect_answers: q.incorrect_answers.map((a: string) => decodeHtmlEntities(a))
                 }))
-                let initAnswers = data.results.map((question: any) => {
+                initAnswers.value = data.results.map((question: any) => {
                     return {
                         question: decodeHtmlEntities(question.question),
                         selectedAnswer: null,
                         isCorrect: false
                     }
                 });
-                answers.value = [...initAnswers];
+                answers.value = [...initAnswers.value];
 
             }
         }      
@@ -75,6 +75,7 @@ export const useQuiz = () => {
 
     const resetQuiz = () => {
         answers.value = [...initAnswers.value]
+        console.log('resetting answers', answers.value)
         currentQuestionIndex.value = 0
         score.value = 0
         isQuizDone.value = false

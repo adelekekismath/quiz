@@ -9,13 +9,14 @@
           v-for="(option, index) in anwersOptions"
           :key="index"
           class="flex items-center gap-3 p-3 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition"
-          @click="recordAnswer(option)"
+          @click="selectOption(option)"
         >
           <input
             type="radio"
-            @change="recordAnswer(option)"
+            @change="selectOption(option)"
             :id="'option' + index"
             :value="option"
+            :checked="selectedOption === option"
             class="accent-indigo-600 w-5 h-5"
           />
           <label
@@ -35,6 +36,8 @@
     import type { Question } from "@/utils/types";
 
     const anwersOptions = ref<string[]>([]);
+
+    const selectedOption = ref<string | null>(null);
     
     const props = defineProps({
         currentQuestion: {
@@ -51,6 +54,11 @@
             required: true,
         },
     });
+
+    const selectOption = (option: string) => {
+        selectedOption.value = option;
+        recordAnswer(option);
+    };
 
     const emit = defineEmits<{
         (event: "record-answer", answer: string): void;
