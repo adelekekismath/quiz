@@ -4,7 +4,7 @@
             Questionnaire sur la culture générale
         </h2>
     
-        <ProgressBar/>
+        <ProgressBar :progressPercentage="progressPercentage"/>
   
         <Question
             v-for="(question, index) in questions"
@@ -12,6 +12,7 @@
             :key="index"
             :currentQuestion="question"
             :currentIndex="index"
+            @record-answer="recordAnswer"
         />
 
     
@@ -40,9 +41,9 @@ import Question from '@/components/Question.vue';
 import Result from '@/components/Result.vue';
 import { onMounted } from 'vue';
 
-const { isQuizDone, questions, goToNextQuestion, currentQuestionIndex, enableNextButton, loadQuestions } = useQuiz();
+const { isQuizDone, questions,progressPercentage, answers,recordAnswer, goToNextQuestion, currentQuestionIndex, enableNextButton, loadQuestions } = useQuiz();
 
-onMounted(() => {
+onMounted( () => {
     loadQuestions();
 })   
 

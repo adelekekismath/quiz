@@ -13,9 +13,14 @@
 
 <script setup lang="ts">
 
-import { useQuiz } from '@/composables/useQuiz';
+import { defineProps} from 'vue';
 
-const { progressPercentage } = useQuiz();
+const props = defineProps({
+    progressPercentage: {
+        type: Number,
+        required: true,
+    }
+})
 
 </script>
 

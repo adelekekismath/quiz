@@ -15,7 +15,6 @@
             type="radio"
             @change="recordAnswer(option)"
             :id="'option' + index"
-            :checked="option === selectedAnswer"
             :value="option"
             class="accent-indigo-600 w-5 h-5"
           />
@@ -34,11 +33,7 @@
 <script setup lang="ts">
     import { ref, onMounted } from "vue";
     import type { Question } from "@/utils/types";
-    import { useQuiz } from "@/composables/useQuiz";
 
-    const { recordAnswer, isQuizDone } = useQuiz();
-
-    const selectedAnswer = ref<string | null>(null);
     const anwersOptions = ref<string[]>([]);
     
     const props = defineProps({
@@ -56,6 +51,14 @@
             required: true,
         },
     });
+
+    const emit = defineEmits<{
+        (event: "record-answer", answer: string): void;
+    }>();
+
+    const recordAnswer = (answer: string) => {
+        emit("record-answer", answer);
+    };
 
     onMounted(() => {
         anwersOptions.value = [...props.currentQuestion.incorrect_answers];

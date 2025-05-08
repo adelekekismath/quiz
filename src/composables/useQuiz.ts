@@ -12,29 +12,9 @@ export const useQuiz = () => {
 
     const loadQuestions = async () => {
         const res = await fetch('https://opentdb.com/api.php?amount=10')
-        if (!res.ok) 
-            throw new Error('Failed to fetch questions')
-        
+        if (!res.ok) {
+            console.log('Failed to fetch questions')
 
-        const data = await res.json()
-
-        if (data.results) {
-            questions.value = data.results.map((q: Question) => ({
-                Question: decodeHtmlEntities(q.question),
-                correct_answer: decodeHtmlEntities(q.correct_answer),
-                incorrect_answers: q.incorrect_answers.map((a: string) => decodeHtmlEntities(a))
-            }))
-            let initAnswers = data.results.map((question: any) => {
-                return {
-                    question: decodeHtmlEntities(question.question),
-                    selectedAnswer: null,
-                    isCorrect: false
-                }
-            });
-            answers.value = [...initAnswers];
-
-        }
-        else {
             console.log('No results found, using default data');
             questions.value = defaultData.results;
             let initAnswers = defaultData.results.map((question: any) => {
@@ -46,13 +26,26 @@ export const useQuiz = () => {
             });
             answers.value = [...initAnswers];
         }
+        else {
+            const data = await res.json()
 
-        questions.value = data.results
-        answers.value = data.results.map((q: Answer) => ({
-          question: q.question,
-          selectedAnswer: null,
-          isCorrect: false,
-        }))
+            if (data.results) {
+                questions.value = data.results.map((q: Question) => ({
+                    question: decodeHtmlEntities(q.question),
+                    correct_answer: decodeHtmlEntities(q.correct_answer),
+                    incorrect_answers: q.incorrect_answers.map((a: string) => decodeHtmlEntities(a))
+                }))
+                let initAnswers = data.results.map((question: any) => {
+                    return {
+                        question: decodeHtmlEntities(question.question),
+                        selectedAnswer: null,
+                        isCorrect: false
+                    }
+                });
+                answers.value = [...initAnswers];
+
+            }
+        }      
     }
 
     const decodeHtmlEntities = (text: string) => {
