@@ -1,10 +1,10 @@
 <template>
 
-    <div class="flex gap-3">
-        <div class="progress-bar">
-            <div class="progress bg-indigo-400" :style="{ width: `${percentage}%` }"></div> 
+    <div class="flex gap-3 mb-10">
+        <div class="progress-bar ">
+            <div class="progress bg-indigo-400" :style="{ width: `${progressPercentage}%` }"></div> 
         </div>
-        {{ percentage.toFixed(0) }}%
+        {{ progressPercentage.toFixed(0) }}%
     </div>
 
     
@@ -13,24 +13,9 @@
 
 <script setup lang="ts">
 
-import { computed } from 'vue';
+import { useQuiz } from '@/composables/useQuiz';
 
-const props = defineProps({
-    currentIndex: {
-        type: Number,
-        required: true
-    },
-    totalQuestions: {
-        type: Number,
-        required: true
-    }
-});
-
-const percentage = computed(() => {
-    if (props.totalQuestions === 0) return 0;
-    return (props.currentIndex / props.totalQuestions) * 100;
-});
-
+const { progressPercentage } = useQuiz();
 
 </script>
 

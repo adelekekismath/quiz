@@ -1,20 +1,21 @@
 <template>
-    <div class="bg-white shadow-md rounded-2xl p-6 border border-indigo-100">
+    <div  class="bg-white shadow-md rounded-2xl p-6 border border-indigo-100">
       <h3 class="text-xl font-semibold text-indigo-700 mb-4">
-        {{ question }}
+        {{ currentQuestion.question }}
       </h3>
   
       <div class="space-y-3">
         <div
-          v-for="(option, index) in options"
+          v-for="(option, index) in anwersOptions"
           :key="index"
           class="flex items-center gap-3 p-3 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition"
+          @click="recordAnswer(option)"
         >
           <input
             type="radio"
-            @change="selectAnswer(option)"
+            @change="recordAnswer(option)"
             :id="'option' + index"
-            :name="question"
+            :checked="option === selectedAnswer"
             :value="option"
             class="accent-indigo-600 w-5 h-5"
           />
@@ -31,13 +32,14 @@
   
 
 <script setup lang="ts">
-    import { computed } from "vue";
+    import { ref, onMounted } from "vue";
+    import type { Question } from "@/utils/types";
+    import { useQuiz } from "@/composables/useQuiz";
 
-    interface Question {
-        question: string;
-        correct_answer: string;
-        incorrect_answers: string[];
-    }
+    const { recordAnswer, isQuizDone } = useQuiz();
+
+    const selectedAnswer = ref<string | null>(null);
+    const anwersOptions = ref<string[]>([]);
     
     const props = defineProps({
         currentQuestion: {
@@ -55,26 +57,13 @@
         },
     });
 
-    const emit = defineEmits<{
-        (e: 'select-answer',answer: string, ): void
-    }>()
-        
-    function selectAnswer( answer: string) {
-        emit('select-answer', answer);
-    }
-
-    const options = computed(() => {
-    const allOptions = [...props.currentQuestion.incorrect_answers];
-    const randIndex = Math.floor(Math.random() * (allOptions.length + 1));
-        allOptions.splice(randIndex, 0, props.currentQuestion.correct_answer);
-        return allOptions;
+    onMounted(() => {
+        anwersOptions.value = [...props.currentQuestion.incorrect_answers];
+        const randIndex = Math.floor(Math.random() * (anwersOptions.value.length + 1));
+        anwersOptions.value.splice(randIndex, 0, props.currentQuestion.correct_answer);
     });
 
-    const question = computed(() => {
-        return props.currentQuestion.question
-            .replace(/&quot;/g, '"')
-            .replace(/&#039;/g, "'");
-        });
+    
     
 
 </script>

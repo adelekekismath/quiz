@@ -5,12 +5,12 @@
   
       <div class="mb-8">
         <p class="text-center text-lg font-medium text-indigo-800 mb-2">
-          Your Score is : {{ calculateScore() }}%
+          Your Score is : {{ getScorePercentage }}%
         </p>
         <div class="w-full bg-gray-200 h-6 rounded-full overflow-hidden">
           <div
             class="bg-indigo-600 h-6 transition-all duration-500"
-            :style="{ width: calculateScore() + '%' }"
+            :style="{ width: getScorePercentage + '%' }"
           ></div>
         </div>
       </div>
@@ -53,35 +53,8 @@
 
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { Question, Answer } from '@/utils/types';
+    import { useQuiz } from '@/composables/useQuiz';
 
-const props = defineProps({
-    questions: {
-        type: Array as () => Array<Question>,
-        required: true,
-    },
-    answers: {
-        type: Array as () => Array<Answer>,
-        required: true,
-    },
-});
-const emit = defineEmits<{
-    (e: 'reset-quiz'): void
-}>()
-const calculateScore = () => {
-    const correctAnswers = props.answers.filter(answer => answer.isCorrect).length;
-    return Math.round((correctAnswers / props.questions.length) * 100);
-};
-const resetQuiz = () => {
-    emit('reset-quiz');
-};
-const questions = computed(() => {
-    return props.questions 
-});
-const answers = computed(() => {
-    return props.answers;
-});
-
-
+    const { getScorePercentage, answers, questions, resetQuiz } = useQuiz();
+    
 </script>
