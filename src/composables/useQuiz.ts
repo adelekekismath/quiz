@@ -1,8 +1,12 @@
 import { ref, computed } from "vue"
 import type { Question, Answer } from "@/utils/types"
 import defaultData from '../data/testData';
+import { useQuizMetaStore } from '@/stores/quizMetaStore'
+
+
 
 export const useQuiz = () => {
+    const meta = useQuizMetaStore()
     const questions = ref<Question[]>([])
     const initAnswers = ref<Answer[]>([])
     const answers = ref<Answer[]>([])
@@ -12,7 +16,15 @@ export const useQuiz = () => {
     const hasAnswered = ref(false)
 
     const loadQuestions = async () => {
-        const res = await fetch('https://opentdb.com/api.php?amount=3')
+
+        const url = new URL('https://opentdb.com/api.php')
+
+        if (meta.numberOfQuestions) url.searchParams.set('amount', meta.numberOfQuestions.toString())
+        if (meta.category) url.searchParams.set('category', meta.category)
+        if (meta.difficulty) url.searchParams.set('difficulty', meta.difficulty)
+
+        const res = await fetch(url.toString())
+
         if (!res.ok) {
             console.log('Failed to fetch questions')
 

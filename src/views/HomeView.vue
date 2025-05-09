@@ -7,7 +7,7 @@
             Test your knowledge with our interactive quiz!
         </p>
         <router-link
-            to="/quiz"
+            to="/configurate-quiz"
             class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition duration-300"
         >
             Start Quiz
