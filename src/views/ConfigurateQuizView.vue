@@ -26,6 +26,9 @@
               <option value="9">General Knowledge</option>
               <option value="21">Sports</option>
               <option value="23">History</option>
+              <option value="18">Science: Computers</option>
+              <option value="22">Geography</option>
+              <option value="11">Entertainment: Film</option>
             </select>
           </div>
   
@@ -83,10 +86,10 @@
     
     function startQuiz() {
         quizMeta.setMeta({
-        pseudo: pseudo.value,
-        category: category.value,
-        difficulty: difficulty.value,
-        numberOfQuestions: numberOfQuestions.value,
+            pseudo: pseudo.value,
+            category: category.value,
+            difficulty: difficulty.value,
+            numberOfQuestions: numberOfQuestions.value,
         })
     
         router.push('/quiz')
