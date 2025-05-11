@@ -79,7 +79,7 @@
     const router = useRouter()
     const quizMeta = useQuizMetaStore()
     
-    const pseudo = ref('')
+    const pseudo = ref(quizMeta.pseudo || '')
     const category = ref('')
     const difficulty = ref('')
     const numberOfQuestions = ref(10)
@@ -90,7 +90,7 @@
             category: category.value,
             difficulty: difficulty.value,
             numberOfQuestions: numberOfQuestions.value,
-        })
+        });
     
         router.push('/quiz')
     }

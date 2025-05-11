@@ -2,14 +2,16 @@ import { ref, computed } from "vue"
 import type { Question, Answer } from "@/utils/types"
 import defaultData from '../data/testData';
 import { useQuizMetaStore } from '@/stores/quizMetaStore'
+import router from "@/router";
 
 
 
 export const useQuiz = () => {
+    const state = ref('loading')
     const meta = useQuizMetaStore()
     const questions = ref<Question[]>([])
-    const initAnswers = ref<Answer[]>([])
-    const answers = ref<Answer[]>([])
+    const initchoices = ref<Answer[]>([])
+    const choices = ref<Answer[]>([])
     const currentQuestionIndex = ref(0)
     const score = ref(0)
     const isQuizDone = ref(false)
@@ -26,18 +28,16 @@ export const useQuiz = () => {
         const res = await fetch(url.toString())
 
         if (!res.ok) {
-            console.log('Failed to fetch questions')
-
-            console.log('No results found, using default data');
             questions.value = defaultData.results;
-            initAnswers.value = defaultData.results.map((question: any) => {
+            initchoices.value = defaultData.results.map((question: any) => {
                 return {
                     question: question.question,
                     selectedAnswer: null,
                     isCorrect: false
                 }
             });
-            answers.value = [...initAnswers.value];
+            choices.value = [...initchoices.value];
+            state.value = 'error';
         }
         else {
             const data = await res.json()
@@ -46,18 +46,18 @@ export const useQuiz = () => {
                 questions.value = data.results.map((q: Question) => ({
                     question: decodeHtmlEntities(q.question),
                     correct_answer: decodeHtmlEntities(q.correct_answer),
-                    incorrect_answers: q.incorrect_answers.map((a: string) => decodeHtmlEntities(a))
+                    incorrect_choices: q.incorrect_choices.map((a: string) => decodeHtmlEntities(a))
                 }))
-                initAnswers.value = data.results.map((question: any) => {
+                initchoices.value = data.results.map((question: any) => {
                     return {
                         question: decodeHtmlEntities(question.question),
                         selectedAnswer: null,
                         isCorrect: false
                     }
                 });
-                answers.value = [...initAnswers.value];
-
+                choices.value = [...initchoices.value];
             }
+            state.value = 'done';
         }      
     }
 
@@ -68,12 +68,27 @@ export const useQuiz = () => {
     const recordAnswer = (selectedAnswer: string) => {
         if (hasAnswered.value) return
         hasAnswered.value = true
-        answers.value[currentQuestionIndex.value].selectedAnswer = selectedAnswer
+        choices.value[currentQuestionIndex.value].selectedAnswer = selectedAnswer
         const correctAnswer = questions.value[currentQuestionIndex.value].correct_answer
         if (selectedAnswer === correctAnswer) {
             score.value++
-            answers.value[currentQuestionIndex.value].isCorrect = true
+            choices.value[currentQuestionIndex.value].isCorrect = true
         }
+    }
+
+    const resetQuiz = () => {
+        choices.value = [...initchoices.value]
+        console.log('resetting choices', choices.value)
+        currentQuestionIndex.value = 0
+        score.value = 0
+        isQuizDone.value = false
+        hasAnswered.value = false
+    }
+
+    const startNewQuiz = () => {
+        meta.resetMeta();
+        resetQuiz();
+        router.push('./configurate-quiz')
     }
 
     const goToNextQuestion = () => {
@@ -85,14 +100,7 @@ export const useQuiz = () => {
         }
     }
 
-    const resetQuiz = () => {
-        answers.value = [...initAnswers.value]
-        console.log('resetting answers', answers.value)
-        currentQuestionIndex.value = 0
-        score.value = 0
-        isQuizDone.value = false
-        hasAnswered.value = false
-    }
+    
 
     const getScorePercentage = computed(() => {
         return Math.floor((score.value / questions.value.length) * 100)
@@ -114,7 +122,7 @@ export const useQuiz = () => {
 
     return {
         questions,
-        answers,
+        choices,
         currentQuestionIndex,
         isQuizDone,
         hasAnswered,
@@ -125,7 +133,9 @@ export const useQuiz = () => {
         enableNextButton,
         getScorePercentage,
         totalQuestions,
-        progressPercentage
+        progressPercentage,
+        state,
+        startNewQuiz,
     }
 
 }

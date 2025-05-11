@@ -46,7 +46,7 @@
             default: () => ({
                 question: "",
                 correct_answer: "",
-                incorrect_answers: [],
+                incorrect_choices: [],
             }),
         },
         currentIndex: {
@@ -69,7 +69,7 @@
     };
 
     onMounted(() => {
-        anwersOptions.value = [...props.currentQuestion.incorrect_answers];
+        anwersOptions.value = [...props.currentQuestion.incorrect_choices];
         const randIndex = Math.floor(Math.random() * (anwersOptions.value.length + 1));
         anwersOptions.value.splice(randIndex, 0, props.currentQuestion.correct_answer);
     });

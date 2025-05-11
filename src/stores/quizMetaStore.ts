@@ -15,7 +15,6 @@ export const useQuizMetaStore = defineStore('quizMeta', {
       this.numberOfQuestions = numberOfQuestions
     },
     resetMeta() {
-      this.pseudo = ''
       this.category = ''
       this.difficulty = ''
       this.numberOfQuestions = 0
