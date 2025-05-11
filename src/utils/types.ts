@@ -4,7 +4,7 @@ type Question = {
     question: string;
     difficulty: string;
     correct_answer: string;
-    incorrect_choices: string[];
+    incorrect_answers: string[];
 };
 
 type Answer = {

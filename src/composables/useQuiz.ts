@@ -7,7 +7,7 @@ import router from "@/router";
 
 
 export const useQuiz = () => {
-    const state = ref('loading')
+    const state = ref<'loading' | 'done' | 'error'>('loading')
     const meta = useQuizMetaStore()
     const questions = ref<Question[]>([])
     const initchoices = ref<Answer[]>([])
@@ -46,7 +46,7 @@ export const useQuiz = () => {
                 questions.value = data.results.map((q: Question) => ({
                     question: decodeHtmlEntities(q.question),
                     correct_answer: decodeHtmlEntities(q.correct_answer),
-                    incorrect_choices: q.incorrect_choices.map((a: string) => decodeHtmlEntities(a))
+                    incorrect_answers: q.incorrect_answers.map((a: string) => decodeHtmlEntities(a))
                 }))
                 initchoices.value = data.results.map((question: any) => {
                     return {
@@ -78,7 +78,6 @@ export const useQuiz = () => {
 
     const resetQuiz = () => {
         choices.value = [...initchoices.value]
-        console.log('resetting choices', choices.value)
         currentQuestionIndex.value = 0
         score.value = 0
         isQuizDone.value = false
@@ -130,11 +129,12 @@ export const useQuiz = () => {
         recordAnswer,
         goToNextQuestion,
         resetQuiz,
+        progressPercentage,
         enableNextButton,
         getScorePercentage,
         totalQuestions,
-        progressPercentage,
         state,
+        score,
         startNewQuiz,
     }
 
