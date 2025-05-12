@@ -1,6 +1,6 @@
 <template>
     <div
-        class="max-w-3xl mx-auto px-4 py-10 bg-white rounded-2xl shadow-md border border-indigo-100"
+        class="max-w-3xl  mx-auto px-4 py-10 bg-white rounded-2xl shadow-md border border-indigo-100"
     >
         <h2 class="text-3xl font-bold text-indigo-700 text-center mb-4">
             Quiz Completed
@@ -9,7 +9,7 @@
             Thanks for participating!
         </p>
 
-        <div class="mb-8">
+        <div class="mb-8 ">
             <p class="text-center text-lg font-medium text-indigo-800 mb-2">
                 Your Score is : {{ score }}/{{ questions.length }}
             </p>

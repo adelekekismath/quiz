@@ -1,7 +1,7 @@
 <template>
     <div  class="bg-white shadow-md rounded-2xl p-6 border border-indigo-100">
       <h3 class="text-xl font-semibold text-indigo-700 mb-4">
-        {{ currentQuestion.question }}
+        {{ question.question }}
       </h3>
   
       <div class="space-y-3">
@@ -40,7 +40,7 @@
     const selectedOption = ref<string | null>(null);
     
     const props = defineProps({
-        currentQuestion: {
+        question: {
             type: Object as () => Question,
             required: true,
             default: () => ({
@@ -49,7 +49,7 @@
                 incorrect_answers: [],
             }),
         },
-        currentIndex: {
+        index: {
             type: Number,
             required: true,
         },
@@ -69,9 +69,9 @@
     };
 
     onMounted(() => {
-        choices.value = [...props.currentQuestion.incorrect_answers];
+        choices.value = [...props.question.incorrect_answers];
         const randIndex = Math.floor(Math.random() * (choices.value.length + 1));
-        choices.value.splice(randIndex, 0, props.currentQuestion.correct_answer);
+        choices.value.splice(randIndex, 0, props.question.correct_answer);
     });
 
     
