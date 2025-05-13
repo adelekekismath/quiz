@@ -46,11 +46,17 @@
                     @record-answer="recordAnswer"
                 />
 
-                <div class="flex justify-center mt-8">
+                <div class="flex justify-between  mt-8">
+                <button 
+                    @click="quitQuiz"
+                    class="bg-indigo-600 self-start hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition duration-300"
+                >
+                    Quit quiz
+                </button>
                 <button
                     @click="goToNextQuestion()"
                     :disabled="!enableNextButton"
-                    class="bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition duration-300"
+                    class="bg-indigo-600 self-end hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition duration-300"
                 >
                     {{
                     currentQuestionIndex === questions.length - 1
@@ -58,6 +64,11 @@
                         : "Next Question"
                     }}
                 </button>
+
+                
+
+
+
                 </div>
             </div>
             </div>
@@ -99,6 +110,7 @@ import { useQuiz } from "@/composables/useQuiz";
         currentQuestionIndex,
         enableNextButton,
         loadQuestions,
+        quitQuiz
     } = useQuiz();
 
     onMounted(() => {

@@ -13,4 +13,11 @@ type Answer = {
     isCorrect: boolean;
 };
 
-export type { Question, Answer };
+type QuizMeta = {
+    pseudo : string;
+    numberOfQuestions: number;
+    category: string;
+    difficulty: string;
+}
+
+export type { Question, Answer, QuizMeta };

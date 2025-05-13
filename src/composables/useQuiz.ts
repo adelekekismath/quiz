@@ -76,6 +76,11 @@ export const useQuiz = () => {
         }
     }
 
+    const quitQuiz = () => {
+        meta.resetMeta();
+        resetQuiz();
+        router.push('/configurate-quiz')
+    }
     const resetQuiz = () => {
         choices.value = [...initchoices.value]
         currentQuestionIndex.value = 0
@@ -97,9 +102,7 @@ export const useQuiz = () => {
         } else {
             isQuizDone.value = true
         }
-    }
-
-    
+    }  
 
     const getScorePercentage = computed(() => {
         return Math.floor((score.value / questions.value.length) * 100)
@@ -136,6 +139,7 @@ export const useQuiz = () => {
         state,
         score,
         startNewQuiz,
+        quitQuiz,
     }
 
 }
