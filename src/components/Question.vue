@@ -6,7 +6,7 @@
   
       <div class="space-y-3">
         <div
-          v-for="(option, index) in choices"
+          v-for="(option, index) in answers"
           :key="index"
           class="flex items-center gap-3 p-3 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition"
           @click="selectOption(option)"
@@ -35,7 +35,7 @@
     import { ref, onMounted } from "vue";
     import type { Question } from "@/utils/types";
 
-    const choices = ref<string[]>([]);
+    const answers = ref<string[]>([]);
 
     const selectedOption = ref<string | null>(null);
     
@@ -46,7 +46,7 @@
             default: () => ({
                 question: "",
                 correct_answer: "",
-                incorrect_answers: [],
+                answers: [],
             }),
         },
         index: {
@@ -68,11 +68,17 @@
         emit("record-answer", answer);
     };
 
+    const shuffleAnswersWithCorrectAnswer = () => {
+        answers.value = [...props.question.answers];
+        const randIndex = Math.floor(Math.random() * (answers.value.length + 1));
+        answers.value.splice(randIndex, 0, props.question.correct_answer);
+    }
+
     onMounted(() => {
-        choices.value = [...props.question.incorrect_answers];
-        const randIndex = Math.floor(Math.random() * (choices.value.length + 1));
-        choices.value.splice(randIndex, 0, props.question.correct_answer);
+        shuffleAnswersWithCorrectAnswer()
     });
+
+
 
     
     

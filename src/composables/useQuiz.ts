@@ -1,13 +1,12 @@
 import { ref, computed } from "vue"
-import type { Question, Answer } from "@/utils/types"
-import defaultData from '../data/testData';
+import type { Question, Answer, State } from "@/utils/types"
 import { useQuizMetaStore } from '@/stores/quizMetaStore'
+import fetchQuestions from "./fetchQuestions";
 import router from "@/router";
 
 
-
 export const useQuiz = () => {
-    const state = ref<'loading' | 'done' | 'error'>('loading')
+    const state = ref<State>('loading')
     const meta = useQuizMetaStore()
     const questions = ref<Question[]>([])
     const initchoices = ref<Answer[]>([])
@@ -15,59 +14,23 @@ export const useQuiz = () => {
     const currentQuestionIndex = ref(0)
     const score = ref(0)
     const isQuizDone = ref(false)
-    const hasAnswered = ref(false)
+    const hasAnsweredCuurentQuestion = ref(false)
 
     const loadQuestions = async () => {
-
-        const url = new URL('https://opentdb.com/api.php')
-
-        if (meta.numberOfQuestions) url.searchParams.set('amount', meta.numberOfQuestions.toString())
-        if (meta.category) url.searchParams.set('category', meta.category)
-        if (meta.difficulty) url.searchParams.set('difficulty', meta.difficulty)
-
-        const res = await fetch(url.toString())
-
-        if (!res.ok) {
-            questions.value = defaultData.results;
-            initchoices.value = defaultData.results.map((question: any) => {
-                return {
-                    question: question.question,
-                    selectedAnswer: null,
-                    isCorrect: false
-                }
-            });
-            choices.value = [...initchoices.value];
-            state.value = 'error';
-        }
-        else {
-            const data = await res.json()
-
-            if (data.results) {
-                questions.value = data.results.map((q: Question) => ({
-                    question: decodeHtmlEntities(q.question),
-                    correct_answer: decodeHtmlEntities(q.correct_answer),
-                    incorrect_answers: q.incorrect_answers.map((a: string) => decodeHtmlEntities(a))
-                }))
-                initchoices.value = data.results.map((question: any) => {
-                    return {
-                        question: decodeHtmlEntities(question.question),
-                        selectedAnswer: null,
-                        isCorrect: false
-                    }
-                });
-                choices.value = [...initchoices.value];
-            }
-            state.value = 'done';
-        }      
+        const { 
+            questions: fetchedQuestions,
+            initchoices: fetchedInitChoices,
+            status: fetchedState }
+        = await fetchQuestions();
+        questions.value = fetchedQuestions;
+        initchoices.value = fetchedInitChoices;
+        choices.value = fetchedInitChoices;
+        state.value = fetchedState;
     }
 
-    const decodeHtmlEntities = (text: string) => {
-        return text.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
-      }
-
     const recordAnswer = (selectedAnswer: string) => {
-        if (hasAnswered.value) return
-        hasAnswered.value = true
+        if (hasAnsweredCuurentQuestion.value) return
+        hasAnsweredCuurentQuestion.value = true
         choices.value[currentQuestionIndex.value].selectedAnswer = selectedAnswer
         const correctAnswer = questions.value[currentQuestionIndex.value].correct_answer
         if (selectedAnswer === correctAnswer) {
@@ -86,7 +49,7 @@ export const useQuiz = () => {
         currentQuestionIndex.value = 0
         score.value = 0
         isQuizDone.value = false
-        hasAnswered.value = false
+        hasAnsweredCuurentQuestion.value = false
     }
 
     const startNewQuiz = () => {
@@ -98,7 +61,7 @@ export const useQuiz = () => {
     const goToNextQuestion = () => {
         if (currentQuestionIndex.value < questions.value.length - 1) {
             currentQuestionIndex.value++
-            hasAnswered.value = false
+            hasAnsweredCuurentQuestion.value = false
         } else {
             isQuizDone.value = true
         }
@@ -109,7 +72,7 @@ export const useQuiz = () => {
     })
 
     const enableNextButton = computed(() => {
-        return currentQuestionIndex.value < questions.value.length && hasAnswered.value;
+        return currentQuestionIndex.value < questions.value.length && hasAnsweredCuurentQuestion.value;
     });
 
     const totalQuestions = computed(() => {
@@ -121,23 +84,24 @@ export const useQuiz = () => {
         return ((currentQuestionIndex.value + 1) / questions.value.length) * 100;
     });
 
+    
+
 
     return {
         questions,
         choices,
         currentQuestionIndex,
         isQuizDone,
-        hasAnswered,
-        loadQuestions,
-        recordAnswer,
-        goToNextQuestion,
-        resetQuiz,
         progressPercentage,
         enableNextButton,
         getScorePercentage,
         totalQuestions,
         state,
         score,
+        loadQuestions,
+        recordAnswer,
+        goToNextQuestion,
+        resetQuiz,
         startNewQuiz,
         quitQuiz,
     }

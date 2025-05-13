@@ -1,10 +1,7 @@
 type Question = {
-    category: string;
-    type: string;
     question: string;
-    difficulty: string;
     correct_answer: string;
-    incorrect_answers: string[];
+    answers: string[];
 };
 
 type Answer = {
@@ -20,4 +17,6 @@ type QuizMeta = {
     difficulty: string;
 }
 
-export type { Question, Answer, QuizMeta };
+type State = 'loading'| 'error'| 'done'
+
+export type { Question, Answer, QuizMeta, State };

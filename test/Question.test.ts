@@ -6,7 +6,7 @@ describe('Question Component', () => {
   const mockQuestion = {
     question: 'What is the capital of France?',
     correct_answer: 'Paris',
-    incorrect_answers: ['London', 'Berlin', 'Madrid']
+    answers: ['London', 'Berlin', 'Madrid']
   }
 
   let wrapper
@@ -32,14 +32,14 @@ describe('Question Component', () => {
 
     it('renders all answer options', () => {
       const options = wrapper.findAll('.bg-indigo-50')
-      expect(options.length).toBe(mockQuestion.incorrect_answers.length + 1)
+      expect(options.length).toBe(mockQuestion.answers.length + 1)
     })
 
     it('shuffles correct and incorrect answers', () => {
       const displayedOptions = wrapper.findAll('label').map(label => label.text())
       
       expect(displayedOptions).toContain(mockQuestion.correct_answer)
-      mockQuestion.incorrect_answers.forEach(answer => {
+      mockQuestion.answers.forEach(answer => {
         expect(displayedOptions).toContain(answer)
       })
     })
@@ -105,7 +105,7 @@ describe('Question Component', () => {
       const newQuestion = {
         question: 'What is the largest ocean?',
         correct_answer: 'Pacific',
-        incorrect_answers: ['Atlantic', 'Indian', 'Arctic']
+        answers: ['Atlantic', 'Indian', 'Arctic']
       }
       
       await wrapper.setProps({ 
@@ -117,7 +117,7 @@ describe('Question Component', () => {
       
       const displayedOptions = wrapper.findAll('label').map(label => label.text())
       expect(displayedOptions).toContain(newQuestion.correct_answer)
-      newQuestion.incorrect_answers.forEach(answer => {
+      newQuestion.answers.forEach(answer => {
         expect(displayedOptions).toContain(answer)
       })
     })
