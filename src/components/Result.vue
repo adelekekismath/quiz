@@ -13,7 +13,7 @@
             <p class="text-center text-lg font-medium text-indigo-800 mb-2">
                 Your Score is : {{ score }}/{{ questions.length }}
             </p>
-            <ProgressBar :progressPercentage="`${score/questions.length*100}%`"/>
+            <ProgressBar :progressPercentage="scorePercentage"/>
             
         </div>
 
@@ -30,10 +30,10 @@
                     Your answer:
                     <span class="font-medium">{{ answer.selectedAnswer }}</span>
                 </p>
-                <p v-if="answer.isCorrect" class="text-green-600 font-semibold">
+                <p v-if="answer.isCorrect" class="correct-ans text-green-600 font-semibold">
                     Correct
                 </p>
-                <p v-else class="text-red-600 font-semibold">
+                <p v-else class="incorrect-ans text-red-600 font-semibold">
                     Incorrect — Correct answer:
                     <span class="underline">{{ questions[index].correct_answer }}</span>
                 </p>
@@ -43,13 +43,13 @@
         <div class="flex gap-4 mt-8 justify-center">
             <button
                 @click="resetQuiz()"
-                class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition"
+                class="bg-indigo-600 reset-btn hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition"
             >
                 Restart Quiz
             </button>
             <button
                 @click="startNewQuiz()"
-                class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition"
+                class="bg-indigo-600 start-btn hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition"
             >
                 Start New Quiz
             </button>
@@ -59,11 +59,11 @@
 </template>
 
 <script setup lang="ts">
-    import { defineProps } from "vue";
+    import { computed, defineProps } from "vue";
     import type { Answer, Question } from "@/utils/types";
     import ProgressBar from "./ProgressBar.vue";
 
-    defineProps({
+    const props = defineProps({
         score: {
             type: Number,
             required: true,
@@ -75,8 +75,12 @@
         questions: {
             type: Array<Question>,
             required: true,
-        },
+        }
     });
+
+    const scorePercentage = computed(()=> {
+        return (props.score/props.questions.length*100).toFixed(0) +'%'
+    })
 
     const emit = defineEmits<{
         (event: "reset-quiz"): void;
