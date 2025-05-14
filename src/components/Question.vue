@@ -32,7 +32,7 @@
   
 
 <script setup lang="ts">
-    import { ref, onMounted } from "vue";
+    import { ref, onMounted, watch } from "vue";
     import type { Question } from "@/utils/types";
 
     const answers = ref<string[]>([]);
@@ -77,8 +77,6 @@
     onMounted(() => {
         shuffleAnswersWithCorrectAnswer()
     });
-
-
 
     
     

@@ -81,7 +81,7 @@ export const useQuiz = () => {
 
     const progressPercentage = computed(() => {
         if (questions.value.length === 0) return 0;
-        return ((currentQuestionIndex.value + 1) / questions.value.length) * 100;
+        return (((currentQuestionIndex.value + 1) / questions.value.length) * 100).toFixed(0) + '%';
     });
 
     

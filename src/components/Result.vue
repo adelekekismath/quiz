@@ -13,13 +13,8 @@
             <p class="text-center text-lg font-medium text-indigo-800 mb-2">
                 Your Score is : {{ score }}/{{ questions.length }}
             </p>
-            <div class="w-full bg-gray-200 h-6 rounded-full overflow-hidden">
-                <div
-                    class="bg-indigo-600 h-6 transition-all duration-500"
-                    :style="{ width: score / questions.length * 100 + '%' }"
-                    :aria-valuenow="score"
-                ></div>
-            </div>
+            <ProgressBar :progressPercentage="`${score/questions.length*100}%`"/>
+            
         </div>
 
         <ul class="space-y-4">
@@ -66,6 +61,7 @@
 <script setup lang="ts">
     import { defineProps } from "vue";
     import type { Answer, Question } from "@/utils/types";
+    import ProgressBar from "./ProgressBar.vue";
 
     defineProps({
         score: {

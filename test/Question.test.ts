@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect,  beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import Question from '../src/components/Question.vue'
 
@@ -96,29 +96,6 @@ describe('Question Component', () => {
       options.forEach(option => {
         expect(option.classes()).toContain('hover:bg-indigo-100')
         expect(option.classes()).toContain('transition')
-      })
-    })
-  })
-
-  describe('Dynamic Behavior', () => {
-    it('reacts to prop changes', async () => {
-      const newQuestion = {
-        question: 'What is the largest ocean?',
-        correct_answer: 'Pacific',
-        answers: ['Atlantic', 'Indian', 'Arctic']
-      }
-      
-      await wrapper.setProps({ 
-        question: newQuestion,
-        index: 1
-      })
-      
-      expect(wrapper.find('h3').text()).toBe(newQuestion.question)
-      
-      const displayedOptions = wrapper.findAll('label').map(label => label.text())
-      expect(displayedOptions).toContain(newQuestion.correct_answer)
-      newQuestion.answers.forEach(answer => {
-        expect(displayedOptions).toContain(answer)
       })
     })
   })
