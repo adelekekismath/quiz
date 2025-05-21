@@ -10,6 +10,7 @@
             <label class="block text-sm font-medium text-indigo-700 mb-1">Your Pseudo</label>
             <input
               v-model="pseudo"
+              aria-label="pseudo"
               type="text"
               placeholder="Enter your pseudo"
               class="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
@@ -21,6 +22,7 @@
             <select
               v-model="category"
               class="w-full border border-gray-300 p-3 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              aria-label="category"
             >
               <option disabled value="">Select category</option>
               <option value="9">General Knowledge</option>
@@ -37,6 +39,7 @@
             <select
               v-model="difficulty"
               class="w-full border border-gray-300 p-3 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              aria-label="difficulty"
             >
               <option disabled value="">Select difficulty</option>
               <option value="easy">Easy</option>
@@ -56,6 +59,7 @@
               step="5"
               v-model="numberOfQuestions"
               class="w-full accent-indigo-600"
+              aria-label="number of questions"
             />
           </div>
   

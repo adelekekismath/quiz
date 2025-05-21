@@ -5,9 +5,9 @@ import Result from '../src/components/Result.vue'
 
 describe('Result Component', ()=> {
     let mockChoices = [
-        { question: 'What is the capital of France?', correct_answer: 'Paris', selectedAnswer: 'Paris' },
-        { question: 'What is 2 + 2?', correct_answer: '4', selectedAnswer: '3' },
-        { question: 'What is the capital of Spain?', correct_answer: 'Madrid', selectedAnswer: 'Madrid' },]
+        { question: 'What is the capital of France?', correct_answer: 'Paris',isCorrect : true},
+        { question: 'What is 2 + 2?', correct_answer: '4', isCorrect : false },
+        { question: 'What is the capital of Spain?', correct_answer: 'Madrid', isCorrect : true }]
 
     let mockScore = 2
     let mockQuestions = [
@@ -54,7 +54,6 @@ describe('Result Component', ()=> {
 
         it('should show the correct/icorrect answers correctly', ()=> {
             const correctAnswers = wrapper.findAll('p.correct-ans')
-            console.log("correctAnswers",correctAnswers)
             const incorrectAnswers = wrapper.findAll('p').filter((p)=>{return p.text().includes('Incorrect')})
 
             expect(correctAnswers.length).toBe(2);
@@ -67,5 +66,6 @@ describe('Result Component', ()=> {
             expect(progressbar.props('progressPercentage')).toBe('67%')
         })
 
+        
 
 })
