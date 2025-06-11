@@ -20,14 +20,9 @@
 
 <script setup lang="ts">
 
-    import { defineProps} from 'vue';
-
-    defineProps({
-        progressPercentage: {
-            type: String,
-            required: true,
-        }
-    })
+    defineProps<{
+        progressPercentage: string
+    }>()
 
 </script>
 

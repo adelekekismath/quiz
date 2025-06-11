@@ -59,13 +59,14 @@
               step="5"
               v-model="numberOfQuestions"
               class="w-full accent-indigo-600"
-              aria-label="number of questions"
+              aria-label="number-of-questions"
             />
           </div>
   
           <button
             @click="startQuiz"
             :disabled="!pseudo || !category || !difficulty"
+            aria-label="start-quiz"
             class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
              Start Quiz
@@ -87,6 +88,13 @@
     const category = ref('')
     const difficulty = ref('')
     const numberOfQuestions = ref(10)
+
+    defineExpose({
+        pseudo,
+        category,
+        difficulty,
+        numberOfQuestions,
+    })
     
     function startQuiz() {
         quizMeta.setMeta({
