@@ -35,7 +35,7 @@
             </div>
 
             <div v-if="!(state === 'loading')">
-                <ProgressBar :progressPercentage="progressPercentage" />
+                <ProgressBar :progressPercentage="String(progressPercentage)" />
 
                 <Question
                     v-for="(question, index) in questions"
