@@ -21,20 +21,19 @@ Quiz Time est une application interactive permettant de créer, gérer et jouer 
 
 1. Clonez le dépôt :
     ```bash
-    git clone https://github.com/votre-utilisateur/quiz_time.git
+    git clone https://github.com/adelekekismath/quiz.git
     cd quiz_time
     ```
 2. Installez les dépendances :
     ```bash
-    # Exemple pour un projet Python
-    pip install -r requirements.txt
+    npm install
     ```
 
 ## Utilisation
 
 Lancez l’application avec la commande suivante :
 ```bash
-python main.py
+npm run dev
 ```
 Suivez les instructions à l’écran pour créer ou jouer à un quiz.
 
