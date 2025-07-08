@@ -5,9 +5,18 @@
             class="flex items-center justify-center h-screen "
         >
             <div class="max-w-3xl w-full bg-white p-8 rounded-xl shadow-xl ">
-            <h2 class="text-3xl font-bold text-indigo-800 mb-8 text-center">
-                Quiz time, {{ pseudo }}! You've got this !!!!!
-            </h2>
+                <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-indigo-800">
+                    Quiz time, {{ pseudo }}! You've got this !!!!!
+                </h2>
+                <div class="text-xl font-semibold" :class="{
+                    'text-green-600': timeLeft > 60,
+                    'text-yellow-500': timeLeft <= 60 && timeLeft > 30,
+                    'text-red-500': timeLeft <= 30
+                }">
+                    {{ formattedTime }}
+                </div>
+            </div>
 
             <div
                 v-if="state === 'loading'"
@@ -96,10 +105,11 @@ import { useQuiz } from "@/composables/useQuiz";
     import { useQuizMetaStore } from "@/stores/quizMetaStore";
 
     const pseudo = useQuizMetaStore().pseudo;
+    const quiz = useQuiz();
     const {
+        isQuizDone,
         state,
         startNewQuiz,
-        isQuizDone,
         resetQuiz,
         questions,
         score,
@@ -110,8 +120,13 @@ import { useQuiz } from "@/composables/useQuiz";
         currentQuestionIndex,
         enableNextButton,
         loadQuestions,
-        quitQuiz
-    } = useQuiz();
+        quitQuiz,
+        formattedTime,
+        isTimeUp,
+        timeLeft,
+        startTimer,
+        timeUp,
+    } = quiz;
 
     onMounted(() => {
         loadQuestions();

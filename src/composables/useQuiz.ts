@@ -1,4 +1,4 @@
-import { ref, computed } from "vue"
+import { ref, computed, onUnmounted } from "vue"
 import type { Question, Answer, State } from "@/utils/types"
 import { useQuizMetaStore } from '@/stores/quizMetaStore'
 import fetchQuestions from "./fetchQuestions";
@@ -15,6 +15,36 @@ export const useQuiz = () => {
     const score = ref(0)
     const isQuizDone = ref(false)
     const hasAnsweredCuurentQuestion = ref(false)
+    const timeLimit = ref(0) 
+    const timeLeft = ref(0)
+    const timer = ref<NodeJS.Timeout | null>(null)
+    const isTimeUp = ref(false)
+
+    const timeUp = () => {
+        if (timer.value) clearInterval(timer.value)
+        isTimeUp.value = true
+        isQuizDone.value = true
+    }
+
+     const formattedTime = computed(() => {
+        const minutes = Math.floor(timeLeft.value / 60)
+        const seconds = timeLeft.value % 60
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+    })
+
+
+    const startTimer = () => {
+        timeLeft.value = timeLimit.value
+        isTimeUp.value = false
+        if (timer.value) clearInterval(timer.value)
+        
+        timer.value = setInterval(() => {
+            timeLeft.value--
+            if (timeLeft.value <= 0) {
+                timeUp()
+            }
+        }, 1000)
+    }
 
     const loadQuestions = async () => {
         const { 
@@ -26,6 +56,9 @@ export const useQuiz = () => {
         initchoices.value = fetchedInitChoices;
         choices.value = fetchedInitChoices;
         state.value = fetchedState;
+
+        timeLimit.value = questions.value.length * 8
+        startTimer()
     }
 
     const recordAnswer = (selectedAnswer: string) => {
@@ -50,7 +83,14 @@ export const useQuiz = () => {
         score.value = 0
         isQuizDone.value = false
         hasAnsweredCuurentQuestion.value = false
+
+        if (timer.value) clearInterval(timer.value)
+        isTimeUp.value = false
+        timeLeft.value = timeLimit.value
+        startTimer()
     }
+
+    
 
     const startNewQuiz = () => {
         meta.resetMeta();
@@ -84,7 +124,9 @@ export const useQuiz = () => {
         return (((currentQuestionIndex.value + 1) / questions.value.length) * 100).toFixed(0) + '%';
     });
 
-    
+    onUnmounted(() => {
+        if (timer.value) clearInterval(timer.value)
+    })
 
 
     return {
@@ -98,6 +140,11 @@ export const useQuiz = () => {
         totalQuestions,
         state,
         score,
+        formattedTime,
+        isTimeUp,
+        timeLeft,
+        startTimer,
+        timeUp,
         loadQuestions,
         recordAnswer,
         goToNextQuestion,
