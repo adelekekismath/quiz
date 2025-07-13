@@ -60,7 +60,7 @@
                     @click="quitQuiz"
                     class="bg-indigo-600 self-start hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition duration-300"
                 >
-                    Quit quiz
+                    Quit
                 </button>
                 <button
                     @click="goToNextQuestion()"
@@ -73,11 +73,6 @@
                         : "Next Question"
                     }}
                 </button>
-
-                
-
-
-
                 </div>
             </div>
             </div>
