@@ -1,11 +1,12 @@
 import {Score} from '../models/score'
 import express from 'express'
 import { Request, Response } from 'express'
+import { requireAuth } from '../middleware/auth'
 
 export const router = express.Router()
 
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/',requireAuth, async (req: Request, res: Response) => {
     try {
         const newScore = new Score(req.body)
         await newScore.save()
