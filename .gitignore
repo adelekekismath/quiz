@@ -30,3 +30,4 @@ server/node_modules
 
 **/.tsbuildinfo
 */package-lock.json
+server/.env
