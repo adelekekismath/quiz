@@ -1,16 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import QuizView from "../views/QuizView.vue";
-import ConfigurateQuizView from "@/views/ConfigurateQuizView.vue";
+import HomePage from "../pages/HomePage.vue";
+import QuizPage from "../pages/QuizPage.vue";
+import ConfigurateQuizPage from "@/pages/ConfigurateQuizPage.vue";
 import { useQuizMetaStore } from "@/stores/quizMetaStore";
 
 
 const routes = [
-   {path: "/", name: "home", component: HomeView},
+   {path: "/", name: "home", component: HomePage},
    {
         path: "/quiz", 
         name: "quiz", 
-        component: QuizView,
+        component: QuizPage,
         beforeEnter: () => {
             const meta = useQuizMetaStore()
             if (
@@ -23,8 +23,8 @@ const routes = [
             }
         }
     },
-  {path: "/configurate-quiz", name: "configurate-quiz", component: ConfigurateQuizView},
-  {path: "/:pathMatch(.*)*", name: "not-found", component: () => import("../views/NotFoundView.vue")},
+  {path: "/configurate-quiz", name: "configurate-quiz", component: ConfigurateQuizPage},
+  {path: "/:pathMatch(.*)*", name: "not-found", component: () => import("../pages/NotFoundPage.vue")},
 
 ];
 const router = createRouter({

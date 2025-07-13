@@ -1,14 +1,14 @@
 
 import { expect, describe, it, beforeEach } from "vitest";
 import {mount} from '@vue/test-utils';
-import ConfigurateQuizView from '../src/views/ConfigurateQuizView.vue'
+import ConfigurateQuizView from '../src/pages/ConfigurateQuizView.vue'
 import { createRouter, createMemoryHistory } from 'vue-router';
 import { routes } from '../src/router/index.ts';
 import { createPinia } from 'pinia';
 import { wrap } from "module";
 
 
-describe('ConfigirateQuiz View', ()=>{
+describe('ConfigirateQuiz Page', ()=>{
     let wrapper
     let router
     let pinia

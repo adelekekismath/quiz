@@ -1,11 +1,11 @@
 import {describe, it, expect, beforeEach, vi} from 'vitest';
 import {mount} from '@vue/test-utils';
-import HomeView from '../src/views/HomeView.vue';
+import HomeView from '../src/pages/HomeView.vue';
 import {routes} from '../src/router/index.ts';
 import { createRouter, createMemoryHistory } from 'vue-router';
 
 
-describe('Home View', () => {
+describe('Home Page', () => {
 
     let router 
 
