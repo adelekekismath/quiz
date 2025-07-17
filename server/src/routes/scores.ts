@@ -1,7 +1,7 @@
-import {Score} from '../models/score'
+import {Score} from '../models/score.js'
 import express from 'express'
 import { Request, Response } from 'express'
-import { requireAuth } from '../middleware/auth'
+import { requireAuth } from '../middleware/auth.js'
 
 export const router = express.Router()
 
