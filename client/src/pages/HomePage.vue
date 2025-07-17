@@ -2,32 +2,32 @@
   <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-center px-4 py-12 overflow-hidden">
     <!-- Animated background elements -->
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-      <div v-for="i in 12" :key="i" 
+      <div v-for="i in 12" :key="i"
            class="absolute rounded-full bg-indigo-200 opacity-20"
            :class="`w-${Math.floor(Math.random() * 20) + 10} h-${Math.floor(Math.random() * 20) + 10}`"
-           :style="`top: ${Math.random() * 100}%; left: ${Math.random() * 100}%; transform: scale(${Math.random() * 2 + 0.5});`"></div>
+           :style="`top: ${Math.random() * 100}%; left: ${Math.random() * 100}%; transform: scale(${Math.random() * 2 + 0.5});`">
+      </div>
     </div>
 
     <div class="relative z-10 max-w-2xl w-full space-y-8 transform transition-all duration-500 hover:scale-[1.01]">
-      <!-- Header with animated gradient text -->
+      <!-- Header -->
       <div class="space-y-4">
         <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-2">
           <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 animate-text-shine">
             Quiz Genius
           </span>
         </h1>
-        
         <p class="text-xl md:text-2xl text-indigo-700/90 font-medium">
           Challenge your mind, expand your knowledge
         </p>
       </div>
 
-      <!-- Animated subtitle -->
+      <!-- Subtitle -->
       <p class="text-lg text-indigo-600/80 max-w-lg mx-auto leading-relaxed">
         Dive into our interactive quiz experience tailored to test and enhance your skills across various topics.
       </p>
 
-      <!-- CTA with hover animation -->
+      <!-- CTA -->
       <div class="pt-6">
         <router-link
           to="/configurate-quiz"
@@ -46,7 +46,7 @@
         </router-link>
       </div>
 
-      <!-- Additional features preview -->
+      <!-- Features -->
       <div class="pt-12 grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
         <div class="p-4 bg-white/30 backdrop-blur-sm rounded-xl border border-white/20 shadow-sm hover:shadow-md transition">
           <div class="text-indigo-600 mb-2">
@@ -76,6 +76,12 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { useAuthStore } from '@/stores/auth'
+
+const auth = useAuthStore()
+</script>
 
 <style>
 @keyframes textShine {

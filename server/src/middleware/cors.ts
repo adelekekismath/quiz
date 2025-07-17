@@ -1,10 +1,12 @@
-import {app} from '../app.ts'
-import cors from 'cors'
-import express from 'express'
+import cors from 'cors';
+import {app} from '../app.js';
 
-app.use(
-    cors({
-        origin: process.env.CLIENT_URL || 'http://localhost:3000'
-    })
-);
-app.use(express.json())
+
+export function configureCors() {
+    app.use(cors({
+        origin: process.env.CLIENT_URL || 'http://localhost:5173',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true
+    }));
+}
