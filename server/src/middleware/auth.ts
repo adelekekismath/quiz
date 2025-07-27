@@ -14,6 +14,7 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction)  =>
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string}
         ;(req as any).userId = decoded.userId
+        console.log('User ID:', (req as any).userId)
         next()
     } catch (error) {
         res.status(401).json({error: 'Invalid token'})

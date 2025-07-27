@@ -130,7 +130,7 @@ const register = async () => {
   errorMessage.value = ''
 
   try {
-    const response = await api.post('auth/register', {
+    const response = await api.post('/apiauth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: username.value, email: email.value, password: password.value })

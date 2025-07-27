@@ -3,10 +3,10 @@
     <!-- Auth Actions -->
     <div class="absolute top-4 right-4 z-20">
       <div v-if="auth.isAuthenticated">
-        <span class="text-indigo-800 font-medium mr-4">Bienvenue {{ auth.user?.username }}</span>
+        <span class="text-indigo-800 font-medium mr-4">Welcome {{ auth.user?.username }}</span>
         <button
           @click="handleLogout"
-          class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-xl shadow-md transition"
+          class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md transition"
         >
           Log Out
         </button>

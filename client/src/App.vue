@@ -19,11 +19,17 @@
     const token = localStorage.getItem('token')
     if (token) {
       try {
-        const response = await api.get('/auth/me')
+        const response = await api.get('api/auth/me')
         auth.login(response.data)
 
       } catch (error) {
         console.error('Failed to fetch user data:', error)
+
+        if (error.response?.status === 401) {
+          localStorage.removeItem('token')
+          auth.logout()
+          router.push('/login')
+        }
       }
     }
   })
