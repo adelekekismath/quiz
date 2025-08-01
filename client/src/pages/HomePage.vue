@@ -99,9 +99,16 @@
 </template>
 
 <script setup>
+import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
+
+const handleLogout = () => {
+  auth.logout()
+  localStorage.removeItem('token')
+  router.push('/login')
+}
 </script>
 
 <style>

@@ -2,11 +2,11 @@ import {Score} from '../models/score.js'
 import express from 'express'
 import { Request, Response } from 'express'
 import { requireAuth } from '../middleware/auth.js'
+import { AuthRequest } from '../utils/types.js'
 
 export const router = express.Router()
 
-
-router.post('/',requireAuth, async (req: Request, res: Response) => {
+const addSingleUserScore = async (req: Request, res: Response) => {
     try {
         const newScore = new Score(req.body)
         await newScore.save()
@@ -14,14 +14,19 @@ router.post('/',requireAuth, async (req: Request, res: Response) => {
     } catch (error: any) {
         res.status(400).json({ error: error.message })
     }
-})
+}
 
 
-router.get('/', async (req: Request, res: Response) => {
+router.post('/',requireAuth, addSingleUserScore )
+
+const getAllUserScores =async (req: Request, res: Response) => {
     try {
-        const scores = await Score.find().sort({date:-1}).limit(10)
+        const userId = (req as unknown as AuthRequest).userId
+        const scores = await Score.find({ userId }).sort({date:-1}).limit(10)
         res.json(scores)
     } catch (error: any) {
         res.status(400).json({ error: error.message })
     }
-})
+}
+
+router.get('/', requireAuth, getAllUserScores)

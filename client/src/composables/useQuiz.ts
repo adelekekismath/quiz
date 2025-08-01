@@ -2,7 +2,9 @@ import { ref, computed, onUnmounted } from "vue"
 import type { Question, Answer, State } from "@/utils/types"
 import { useQuizMetaStore } from '@/stores/quizMetaStore'
 import fetchQuestions from "./fetchQuestions";
+import {useAuthStore} from "@/stores/auth";
 import router from "@/router";
+import api from "@/services/api";
 
 
 export const useQuiz = () => {
@@ -19,6 +21,7 @@ export const useQuiz = () => {
     const timeLeft = ref(0)
     const timer = ref<NodeJS.Timeout | null>(null)
     const isTimeUp = ref(false)
+    const auth = useAuthStore()
 
     const timeUp = () => {
         if (timer.value) clearInterval(timer.value)
@@ -70,6 +73,26 @@ export const useQuiz = () => {
             score.value++
             choices.value[currentQuestionIndex.value].isCorrect = true
         }
+    }
+
+    const saveResults = async () => {
+        const scoreData = {
+            userId: auth.user?._id || 'anonymous',
+            score: score.value,
+            totalQuestions: questions.value.length,
+            choices: choices.value,
+            quizType: meta.category,
+        }
+
+        const response = await api.post('api/scores', scoreData);
+
+        if (response.status === 201) {
+            console.log('Score saved successfully:', response.data);
+            router.push('/configurate-quiz');
+        } else {
+            console.error('Failed to save score:', response.data);
+        }
+        
     }
 
     const quitQuiz = () => {
@@ -151,6 +174,7 @@ export const useQuiz = () => {
         resetQuiz,
         startNewQuiz,
         quitQuiz,
+        saveResults
     }
 
 }

@@ -6,7 +6,7 @@
         </h1>
   
         <div class="space-y-6">
-          <div>
+          <div v-if="!useAuthStore().isAuthenticated">
             <label class="block text-sm font-medium text-indigo-700 mb-1">Your Pseudo</label>
             <input
               v-model="pseudo"
@@ -65,7 +65,7 @@
   
           <button
             @click="startQuiz"
-            :disabled="!pseudo || !category || !difficulty"
+            :disabled="!pseudo && !useAuthStore().isAuthenticated || !category || !difficulty"
             aria-label="start-quiz"
             class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -80,11 +80,12 @@
     import { ref } from 'vue'
     import { useRouter } from 'vue-router'
     import { useQuizMetaStore } from '@/stores/quizMetaStore'
+    import { useAuthStore } from '@/stores/auth'
     
     const router = useRouter()
     const quizMeta = useQuizMetaStore()
     
-    const pseudo = ref(quizMeta.pseudo || '')
+    const pseudo = ref(quizMeta.pseudo || useAuthStore().user?.username || '')
     const category = ref('')
     const difficulty = ref('')
     const numberOfQuestions = ref(10)
@@ -97,6 +98,9 @@
     })
     
     function startQuiz() {
+       if (useAuthStore().user?.username) {
+            pseudo.value = useAuthStore().user?.username  || pseudo.value;
+          }
         quizMeta.setMeta({
             pseudo: pseudo.value,
             category: category.value,

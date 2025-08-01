@@ -1,10 +1,13 @@
 import { defineStore } from 'pinia'
 
 type User = {
-  id: string
-  name: string
+  _id: string
+  username: string
   email: string
+  createdAt: string
+  updatedAt: string
 }
+
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({

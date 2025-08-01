@@ -53,6 +53,12 @@
             >
                 Start New Quiz
             </button>
+            <button
+                @click="saveResults()"
+                class="bg-indigo-600 save-btn hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition"
+            >
+                Save Results
+            </button>
         </div>
 
     </div>
@@ -62,6 +68,7 @@
     import { computed, defineProps } from "vue";
     import type { Answer, Question } from "@/utils/types";
     import ProgressBar from "./ProgressBar.vue";
+    import {useAuthStore} from "@/stores/auth";
 
     const props = defineProps({
         score: {
@@ -85,6 +92,7 @@
     const emit = defineEmits<{
         (event: "reset-quiz"): void;
         (event: "start-new-quiz"): void;
+        (event: "save-results"): void;
     }>();
 
     const resetQuiz = () => {
@@ -93,5 +101,9 @@
 
     const startNewQuiz = () => {
         emit("start-new-quiz");
+    };
+
+    const saveResults = () => {
+        emit("save-results");
     };
 </script>

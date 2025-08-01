@@ -23,10 +23,10 @@
                 class="max-w-xl mx-auto text-center py-12"
             >
                 <p class="text-xl text-indigo-700 font-medium">
-                Chargement des questions personnalisées en cours...
+                Loading personalized questions...
                 </p>
                 <p class="text-sm text-gray-500 mt-2">
-                Merci de patienter quelques instants.
+                Please wait a moment.
                 </p>
             </div>
 
@@ -35,11 +35,10 @@
                 class="max-w-xl mb-8 mx-auto text-center py-12 bg-yellow-50 border border-yellow-200 rounded-lg p-6"
             >
                 <p class="text-lg font-semibold text-yellow-800">
-                Problème de chargement des questions personnalisées
+                Problem loading personalized questions
                 </p>
                 <p class="text-sm text-gray-600 mt-2">
-                Les questions par défaut ont été chargées à la place. Elles ne
-                correspondent peut-être pas à vos critères.
+                Default questions have been loaded instead. They may not match your criteria.
                 </p>
             </div>
 
@@ -85,6 +84,7 @@
       :questions="questions"
       @reset-quiz="resetQuiz"
       @start-new-quiz="startNewQuiz"
+      @save-results="saveResults"
     />
   </div>
     </div>
@@ -121,6 +121,7 @@ import { useQuiz } from "@/composables/useQuiz";
         timeLeft,
         startTimer,
         timeUp,
+        saveResults
     } = quiz;
 
     onMounted(() => {
