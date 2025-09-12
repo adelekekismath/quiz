@@ -82,7 +82,6 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue'
   import { useRouter } from 'vue-router'
-  import { useAuthStore } from '@/stores/auth'
   import {
     EyeIcon,
     EyeSlashIcon
@@ -117,10 +116,10 @@ import api from '@/services/api'
         localStorage.setItem('token', data.token)
         router.push('/')
       } else {
-        errorMessage.value = data.error || 'Identifiants incorrects'
+        errorMessage.value = data.error || 'Invalid credentials'
       }
     } catch (err) {
-      errorMessage.value = 'Erreur de connexion au serveur'
+      errorMessage.value = 'Error connecting to the server'
     } finally {
       loading.value = false
     }
