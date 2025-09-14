@@ -87,6 +87,8 @@
     EyeSlashIcon
   } from '@heroicons/vue/24/outline'
 import api from '@/services/api'
+import { fetchUserData } from '@/utils/helpers'
+  import { useAuthStore } from '@/stores/auth'
 
   onMounted(() => {
     if (localStorage.getItem('token')) {
@@ -106,14 +108,18 @@ import api from '@/services/api'
     errorMessage.value = ''
     
     try {
-      const response = await api.post('api/auth/login', {
+      console.log('Attempting to log in with:', email.value, password.value)
+
+      const response = await api.post('auth/login', {
         email: email.value,
         password: password.value
       })
 
       const data = response.data
       if (response.status === 200) {
+        const auth = useAuthStore()
         localStorage.setItem('token', data.token)
+        await fetchUserData(api, auth)
         router.push('/')
       } else {
         errorMessage.value = data.error || 'Invalid credentials'

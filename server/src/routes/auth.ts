@@ -7,6 +7,8 @@ export const authRouter = express.Router();
 
 authRouter.post('/register', async(req: Request, res:Response) => {
     try {
+        console.log('Register request body:', req.body.email, req.body.username);
+
         const {username, email, password} = req.body
         const existingUser = await User.findOne({email})
         if(existingUser) return res.status(400).json({error: 'User already existed'})
@@ -22,6 +24,7 @@ authRouter.post('/register', async(req: Request, res:Response) => {
 })
 
 authRouter.post('/login', async(req: Request, res: Response) => {
+    
     try {
         const { email, password } = req.body
         const user = await User.findOne({email})

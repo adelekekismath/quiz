@@ -84,7 +84,7 @@ export const useQuiz = () => {
             quizType: meta.category,
         }
 
-        const response = await api.post('api/scores', scoreData);
+        const response = await api.post('/scores', scoreData);
 
         if (response.status === 201) {
             console.log('Score saved successfully:', response.data);

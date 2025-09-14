@@ -121,28 +121,30 @@ const errorMessage = ref('')
 const router = useRouter()
 
 const register = async () => {
+
+  console.log('In register function');
   if (password.value !== confirmPassword.value) {
     errorMessage.value = 'Passwords do not match'
     return
   }
 
+
   loading.value = true
   errorMessage.value = ''
 
   try {
-    const response = await api.post('/apiauth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: username.value, email: email.value, password: password.value })
-    })
+    const response = await api.post('/auth/register', {
+      username: username.value,
+      email: email.value,
+      password: password.value
+    });
 
-    if (response && response.data && response.data.token) {
-      localStorage.setItem('token', response.data.token)
+    if (response && response.data ) {
       router.push('/login')
     } else if (response && response.data && response.data.error) {
       errorMessage.value = response.data.error
     } else {
-      errorMessage.value = 'Registration failed'
+      
     }
   } catch (err) {
     errorMessage.value = err instanceof Error ? err.message : 'An unexpected error occurred'

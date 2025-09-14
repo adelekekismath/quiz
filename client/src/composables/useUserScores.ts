@@ -14,8 +14,6 @@ export const useUserScores = () => {
       const { user } = useAuthStore()
       const response = await api.get(`/api/scores/`)
       scores.value = response.data
-      console.log("Fetched scores:", scores.value)
-      console.log(scores.value[0]?.createdAt)
     } catch (err: any) {
       error.value = err.message || "Failed to fetch scores"
     } finally {

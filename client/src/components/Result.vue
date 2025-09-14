@@ -54,6 +54,7 @@
                 Start New Quiz
             </button>
             <button
+                v-if="auth.isAuthenticated"
                 @click="saveResults()"
                 class="bg-indigo-600 save-btn hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition"
             >
@@ -61,14 +62,18 @@
             </button>
         </div>
 
+       
+
     </div>
 </template>
 
 <script setup lang="ts">
-    import { computed, defineProps } from "vue";
+    import { computed } from "vue";
     import type { Answer, Question } from "@/utils/types";
     import ProgressBar from "./ProgressBar.vue";
-    import {useAuthStore} from "@/stores/auth";
+    import { useAuthStore } from "@/stores/auth";
+
+    const auth = useAuthStore()
 
     const props = defineProps({
         score: {

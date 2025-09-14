@@ -6,10 +6,9 @@ import { authRouter} from './routes/auth.js'
 import {configureCors} from './middleware/cors.js'
 dotenv.config();
 
-
-
 export const app = express();
 configureCors()
+
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
