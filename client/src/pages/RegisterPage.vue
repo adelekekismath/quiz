@@ -121,8 +121,6 @@ const errorMessage = ref('')
 const router = useRouter()
 
 const register = async () => {
-
-  console.log('In register function');
   if (password.value !== confirmPassword.value) {
     errorMessage.value = 'Passwords do not match'
     return

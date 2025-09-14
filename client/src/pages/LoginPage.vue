@@ -108,8 +108,6 @@ import { fetchUserData } from '@/utils/helpers'
     errorMessage.value = ''
     
     try {
-      console.log('Attempting to log in with:', email.value, password.value)
-
       const response = await api.post('auth/login', {
         email: email.value,
         password: password.value
@@ -119,6 +117,7 @@ import { fetchUserData } from '@/utils/helpers'
       if (response.status === 200) {
         const auth = useAuthStore()
         localStorage.setItem('token', data.token)
+        api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
         await fetchUserData(api, auth)
         router.push('/')
       } else {

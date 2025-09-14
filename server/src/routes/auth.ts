@@ -7,8 +7,6 @@ export const authRouter = express.Router();
 
 authRouter.post('/register', async(req: Request, res:Response) => {
     try {
-        console.log('Register request body:', req.body.email, req.body.username);
-
         const {username, email, password} = req.body
         const existingUser = await User.findOne({email})
         if(existingUser) return res.status(400).json({error: 'User already existed'})
@@ -29,15 +27,11 @@ authRouter.post('/login', async(req: Request, res: Response) => {
         const { email, password } = req.body
         const user = await User.findOne({email})
 
-        console.log('User found:', user);
         if(!user || !(await user.comparePassword(password) )){
             return res.status(401).json({error: 'Email or password is incorrect'})
         }
-        console.log(user._id, 'is the user id');
-        console.log('User password:', user.password);
 
         const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET as string, {expiresIn: '7d'})
-        console.log('Login successful, token generated:', token);
         res.json({token})
     } catch (error: any) {
         res.status(500).json({error: error.message})
