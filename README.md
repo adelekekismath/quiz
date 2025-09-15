@@ -1,5 +1,25 @@
 # Quiz Master
-#### Video Demo: <URL HERE>
+#### Video Demo: <URL [HERE](https://youtube.com/shorts/veQyoi4oGUQ)>
+
+#### Install
+
+To install dependencies for both server and client, run:
+
+```bash
+bash install.sh
+```
+
+To run server open terminal and run:
+
+```bash
+bash launch_server.sh
+```
+To run client open another terminal and run:
+
+```bash
+
+bash launch_client.sh
+```
 
 #### Description:
 
