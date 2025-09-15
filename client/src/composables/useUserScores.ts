@@ -12,7 +12,7 @@ export const useUserScores = () => {
     error.value = null
     try {
       const { user } = useAuthStore()
-      const response = await api.get(`/api/scores/`)
+      const response = await api.get(`/scores/`)
       scores.value = response.data
     } catch (err: any) {
       error.value = err.message || "Failed to fetch scores"

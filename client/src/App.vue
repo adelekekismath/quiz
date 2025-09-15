@@ -3,13 +3,14 @@
 </script>
 
 <template>
-  <main>
+  <Navbar />
+  <main class="pt-16 min-h-screen ">
     <router-view />
   </main>
 </template>
 
 <script setup lang="ts">
-
+  import Navbar from '@/components/Navbar.vue'
   import { useAuthStore } from '@/stores/auth'
   import api from '@/services/api'
   import { onMounted } from 'vue'
